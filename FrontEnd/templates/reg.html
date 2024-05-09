@@ -28,14 +28,10 @@
     </nav>
     <article>
         <div class="register-form">
-            <h1>Register</h1>
-            <form action="" method="post">
-                <input type="text" name="firstName" id="firstName" placeholder="name"><br>
-                <input type="text" name="lastName" id="lastName" placeholder="last name"><br>
-                <input type="email" name="email" id="email" placeholder=email><br>
-                <input type="password" name="password" id="password" placeholder="password"><br>
-                <input type="password" name="password" id="password" placeholder="password"><br>
-                <input type="submit" value="Register">
+            <form method="POST">
+                {% csrf_token %}
+                {{form}}
+                <button type="submit">Register</button>
             </form>
         </div>
     </article>
