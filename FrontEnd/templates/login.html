@@ -7,7 +7,8 @@
     <meta name="keywords" content="Project, Project Managment">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/login.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/form.css">
     <title>Log in</title>
 </head>
 
@@ -15,23 +16,24 @@
     <nav>
         <div class="logo-container">
             <a href="/">
-                <div class="logo">
-                    Logo
-                </div>
+                <img src="../static/graphics/logo_diminuendo.png" alt="logo Poznań Supercomputing and Networking Center">
             </a>
         </div>
         <div class="user-forms-container">
-            <a href="register">
+            <a href="/register">
                 <div class="register">
-                    Register
+                    <p>
+                        Register
+                    </p>
                 </div>
             </a>
         </div>
     </nav>
     <article>
-        <div class="login-form">
+        <div class="form">
             <h1>Log in</h1>
             <form action="" method="post">
+                {% csrf_token %}
                 <input type="email" name="email" id="email" placeholder=email autocomplete="on"><br>
                 <input type="password" name="password" id="password" placeholder="password" autocomplete="current-password"><br>
                 <input type="submit" value="Log in">

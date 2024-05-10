@@ -17,4 +17,6 @@ urlpatterns = [
 
     path('meeting/', MeetingList.as_view(), name="meeting-list"),
     path('meeting/<int:pk>/', MeetingRetrieveUpdateDestroy.as_view(), name="meeting-detail"),
+
+    path('register/', UserList.register_user, name='registration-api')
 ]

@@ -7,7 +7,9 @@
     <meta name="keywords" content="Project, Project Managment">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/register.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/form.css">
+    <script src="../static/js/register.js"></script>
     <title>Register</title>
 </head>
 
@@ -15,28 +17,30 @@
     <nav>
         <div class="logo-container">
             <a href="/">
-                <div class="logo">
-                    Logo
-                </div>
+                <img src="../static/graphics/logo_diminuendo.png" alt="logo Poznań Supercomputing and Networking Center">
             </a>
         </div>
         <div class="user-forms-container">
-            <a href="Login">
+            <a href="/login">
                 <div class="login">
-                    Log in
+                    <p>
+                        Log in
+                    </p>
                 </div>
             </a>
         </div>
     </nav>
     <article>
-        <div class="register-form">
+        <div class="form">
             <h1>Register</h1>
-            <form action="" method="post">
-                <input type="text" name="firstName" id="firstName" placeholder="name"><br>
-                <input type="text" name="lastName" id="lastName" placeholder="last name"><br>
+            <form method="post" id="registration-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="text" name="fname" id="fname" placeholder="name"><br>
+                <input type="text" name="lname" id="lname" placeholder="last name"><br>
                 <input type="email" name="email" id="email" placeholder=email><br>
                 <input type="password" name="password" id="password" placeholder="password"><br>
-                <input type="password" name="password" id="password" placeholder="password"><br>
+                <!-- <input type="password" name="password" id="password" placeholder="password"><br> -->
                 <input type="submit" value="Register">
             </form>
         </div>

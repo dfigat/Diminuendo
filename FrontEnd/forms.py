@@ -4,22 +4,9 @@ from django import forms
 from django.contrib.auth.models import User
 from CatchMe.models import models, User
 
-class RegisterForm(forms.ModelForm):
-    email = models.EmailField()
-    fname = models.CharField()
-    lname = models.CharField()
-    
-    
-    class Meta:
-        model = User
-        widgets = {
-            'password': forms.PasswordInput(),
-            'password2': forms.PasswordInput(),
-        }
-        fields = [
-            'fname',
-            'lname',
-            'email',
-            'password',
-            'password2'
-        ]
+
+class RegistrationForm(forms.Form):
+    fname = models.CharField(max_length=40)
+    lname = models.CharField(max_length=40)
+    email = models.EmailField(max_length=40)
+    password = forms.CharField(widget=forms.PasswordInput())

@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = ('__all__')
+        fields = ['id_team', 'id_leader', 'tname']
 
 
 class ProjectSerializer(serializers.ModelSerializer):
