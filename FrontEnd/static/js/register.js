@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4) {
                 if (xhr.status == 201) {
-                    // success
+                    console.log('Registration succesfully comppleted!');
                 } else {
                     console.log('Error:', xhr.status, xhr.responseText);
                 }
