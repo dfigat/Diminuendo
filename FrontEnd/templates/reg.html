@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="Project, Project Managment">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/home.css">
-    <title>Home</title>
+    <link rel="stylesheet" href="static/css/register.css">
+    <title>Register</title>
 </head>
-
 <body>
     <nav>
         <div class="logo-container">
@@ -26,16 +24,16 @@
                     Log in
                 </div>
             </a>
-            <a href="register">
-                <div class="register">
-                    Register
-                </div>
-            </a>
         </div>
     </nav>
     <article>
-        
+        <div class="register-form">
+            <form method="POST">
+                {% csrf_token %}
+                {{form}}
+                <button type="submit">Register</button>
+            </form>
+        </div>
     </article>
 </body>
-
 </html>

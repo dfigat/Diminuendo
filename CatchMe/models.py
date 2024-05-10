@@ -6,6 +6,7 @@ class User(models.Model):
     fname = models.CharField(max_length=50)
     lname = models.CharField(max_length=50)
     email = models.EmailField(max_length=60, unique=True)
+    password = models.CharField(max_length=60)
     is_admin = models.BooleanField(default=False)
 
     def __str__(self):

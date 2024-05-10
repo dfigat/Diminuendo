@@ -1,3 +1,45 @@
+*{
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 body{
-    background-color: green;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+nav{
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    background-color: #2fa5fd;
+}
+.logo-container, .user-forms-container{
+    width: 50%;
+    height: 70px;
+    display: flex;
+    font-size:x-large;
+}
+.user-forms-container{
+    justify-content: end;
+}
+.logo, .login, .register{
+    height: 70px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+.logo{
+    padding: 0 40px;
+}
+.login, .register{
+    padding: 0 20px;
+}
+nav a{
+    text-decoration: none;
+    color: black;
+}
+.logo:hover, .login:hover, .register:hover{
+    background-color: #0067a4;
+    color: white;
 }

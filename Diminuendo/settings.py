@@ -128,6 +128,11 @@ STATIC_URL = 'frontend/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
+<<<<<<< HEAD
     # Set to 'static' by default
     BASE_DIR / "frontend"
 ]
+=======
+    BASE_DIR / "Frontend/static"
+]
+>>>>>>> 54fffdea15c09815090ad21e2ca95ddd43e78cab
