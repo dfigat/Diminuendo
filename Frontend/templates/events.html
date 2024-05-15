@@ -1,0 +1,86 @@
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('/api/meeting/')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(meeting => {
+                    document.querySelector(".gaming").innerHTML = `
+                    <div style=" background-color:red;">
+                    <p>${meeting.meeting_name}</p>
+                    <p>${meeting.meeting_time}</p>
+                    </div>
+                `;
+                    //document.querySelector('p').appendChild(row);
+                    console.log(meeting.meeting_name, meeting.meeting_time, meeting.id_project, meeting.meeting_name, meeting.meeting_date);
+
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+            });
+    });
+</script>
+<div id="calendar" class="container">
+    <h1>Kalendarz</h1>
+    <table class="meeting-table">
+        <thead>
+            <tr>
+                <th>Poniedziałek</th>
+                <th>Wtorek</th>
+                <th>Środa</th>
+                <th>Czwartek</th>
+                <th>Piątek</th>
+                <th>Sobota</th>
+                <th>Niedziela</th>
+            </tr>
+        </thead>
+        <tbody id="week-body">
+            <script>
+                const daysInMonth = (year, month) => new Date(year, month, 0).getDate();
+
+                function NextMonth(curmonth,value,year){
+                   month = curmonth + value;
+                   if(month>12){
+                        month = 1;
+                        year +=1;
+                   }
+                   if(month<1){
+                        month = 12;
+                        year -=1;
+                   }
+                    console.log(month,year)
+                    return [month,year]
+                }
+
+
+                year = 2024;
+                month = 5;
+
+
+
+                let first_day = new Date(year, month - 1, 1).getDay();
+                console.log(first_day);
+                day = 1 - first_day;
+                for (let j = 0; j < daysInMonth(2024, 5) / 7; j++) {
+                    const row = document.createElement("tr");
+                    for (let i = 1; i <= 7; i++) {
+                        const cell = document.createElement("td");
+                        day += 1;
+                        if (day <= daysInMonth(2024, 5) && day > 0) {
+                            cell.textContent = day;
+                        }
+                        else if (day < 0) {
+                            row.appendChild(cell);
+                        }
+
+                        row.appendChild(cell);
+                    }
+                    document.getElementById("week-body").appendChild(row);
+                }
+            </script>
+        </tbody>
+    </table>
+    <button onclick="NextMonth(month,1,year)">GUZIK[+1]</button>
+    <button onclick="NextMonth(month,-1,year)">GUZIK[-1]</button>
+    <p class="gaming"></p>
+</div>

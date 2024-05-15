@@ -89,8 +89,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'diminuendo_db',
-        'USER': 'diminuendo_user',
-        'PASSWORD':'Pa$$word',
+        'USER': 'root',
+        'PASSWORD':'',
         'HOST':'127.0.0.1',
         'PORT': '3306',
     }
