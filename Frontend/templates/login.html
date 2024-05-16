@@ -10,6 +10,70 @@
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="../static/css/form.css">
     <title>Log in</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('.login-form');
+            const messageDiv = document.getElementById('message');
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                let formData = new FormData(form);
+                formData = Object.fromEntries(formData.entries());
+                
+                fetch('/api/login/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json().then(formData => {
+                                console.log('Successfully logged in!', formData['msg']);
+                                window.location.href = '/';
+                            });
+                        } else {
+                            return response.json().then(errorData => {
+                                const errorCount = Object.keys(errorData)[0].length;
+                                const errorKey = Object.keys(errorData)[0];
+                                const errorValue = errorData[errorKey][0];
+
+                                console.error('Login errors:', errorData);
+                                throw new Error('Login failed');
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+
+                // try {
+                //     const response = fetch('http://localhost:8000/login/', {
+                //         method: 'POST',
+                //         headers: {
+                //             'Content-Type': 'application/json',
+                //         },
+                //         body: JSON.stringify({ email, password }),
+                //     });
+
+                //     const data = response.json();
+
+                //     if (response.ok) {
+                //         messageDiv.textContent = `Welcome, ${data.user}!`;
+                //         // Optionally, store user data in localStorage
+                //         // localStorage.setItem('user', JSON.stringify(data));
+                //     } else {
+                //         messageDiv.textContent = `Login failed: ${data.msg}`;
+                //     }
+                // } catch (error) {
+                //     messageDiv.textContent = `Error: ${error.message}`;
+                // }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -32,11 +96,12 @@
     <article>
         <div class="form">
             <h1>Log in</h1>
-            <form action="" method="post">
+            <form action="" method="post" class="login-form">
                 {% csrf_token %}
                 <input type="email" name="email" id="email" placeholder=email autocomplete="on"><br>
                 <input type="password" name="password" id="password" placeholder="password" autocomplete="current-password"><br>
                 <input type="submit" value="Log in">
+                <div id="message"></div>
             </form>
         </div>
     </article>

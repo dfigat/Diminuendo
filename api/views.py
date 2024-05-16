@@ -1,4 +1,8 @@
+from django.contrib.auth import authenticate
+from django.http import JsonResponse
+
 from rest_framework import generics, status
+from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .views import *
@@ -10,22 +14,32 @@ class UserList(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
-    def register_user(self, request):
-        if request.method == 'POST':
-            # form = RegistrationForm(request.POST)
-            serializer =  UserSerializer
-            if serializer.is_valid():
-                first_name = serializer.cleaned_data['first_name']
-                last_name = serializer.cleaned_data['last_name']
-                email = serializer.cleaned_data['email']
-                password = serializer.cleaned_data['password']
-                
-                user = User.objects.create(fname = first_name, lname = last_name, email = email, password = password)
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.validated_data['fname'] = serializer.validated_data['fname'].capitalize()
+            last_name_parts = serializer.validated_data['lname'].split('-')
+            serializer.validated_data['lname'] = '-'.join(
+                part.lower().capitalize() for part in last_name_parts)
+            serializer.save()
+            return Response({'msg': 'New account successfully created!'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-                return Response({'msg': 'New account succesfully created!'}, status = status.HTTP_201_CREATED)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
+
+class LoginView(APIView):
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+            password = serializer.validated_data['password']
+            user = authenticate(request, email=email, password=password)
+
+            if user is not None:
+                return Response({'msg': 'Login successful'}, status=status.HTTP_200_OK)
+            return Response({'msg': 'E-mail or password is wrong'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
