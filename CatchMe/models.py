@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 
 class User(models.Model):
@@ -7,10 +8,13 @@ class User(models.Model):
     lname = models.CharField(max_length=50)
     email = models.EmailField(max_length=60, unique=True)
     password = models.CharField(max_length=60)
+    is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
+    USERNAME_FIELD = 'email'
+
     def __str__(self):
-        return self.fname + " " + self.lname
+        return self.email
 
 
 class Team(models.Model):
@@ -52,3 +56,13 @@ class Meeting(models.Model):
 
     def __str__(self):
         return "Meeting name: "+self.id_team.tname
+
+
+
+class EmailVerificationToken(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.token)

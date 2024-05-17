@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
+from django.shortcuts import redirect, get_object_or_404
+from django.core.mail import send_mail
 
 from rest_framework import generics, status
 from rest_framework.views import APIView
@@ -7,7 +9,9 @@ from rest_framework.response import Response
 
 from .views import *
 from .serializers import *
+from CatchMe.models import EmailVerificationToken
 from Frontend.forms import RegistrationForm
+from Diminuendo.settings import DEFAULT_FROM_EMAIL
 
 
 class UserList(generics.ListCreateAPIView):
@@ -17,26 +21,46 @@ class UserList(generics.ListCreateAPIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.validated_data['fname'] = serializer.validated_data['fname'].capitalize()
-            last_name_parts = serializer.validated_data['lname'].split('-')
-            serializer.validated_data['lname'] = '-'.join(
-                part.lower().capitalize() for part in last_name_parts)
-            serializer.save()
-            return Response({'msg': 'New account successfully created!'}, status=status.HTTP_201_CREATED)
+            user = serializer.save(is_active=False)
+            token = EmailVerificationToken.objects.create(user=user)
+            verification_url = f'{request.scheme}://{request.get_host()}/verify-email/{token.token}/'
+            send_mail(
+                'Verify your e-mail address',
+                f'Hello, {user.fname} {user.lname}!\n'
+                f'Please click the link to verify your email: {verification_url},\n\n'
+                f'This e-mail got generated automatically. Please, do not respond to it!',
+                DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=False,
+            )
+            return Response({'msg': 'New account created. Verify your e-mail!'}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VerifyEmailView(APIView):
+    def get(self, request, token):
+        verification_token = get_object_or_404(
+            EmailVerificationToken, token=token)
+        user = verification_token.user
+        user.is_active = True
+        user.save()
+        verification_token.delete()
+        return redirect('/')
 
 
 class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            email = serializer.validated_data['email']
+            email = serializer.validated_data['email'].lower()
             password = serializer.validated_data['password']
             user = authenticate(request, email=email, password=password)
 
             if user is not None:
-                return Response({'msg': 'Login successful'}, status=status.HTTP_200_OK)
+                if user.is_active:  # Check if the user's email is verified
+                    return Response({'msg': 'Login successful'}, status=status.HTTP_200_OK)
+                return Response({'msg': 'E-mail not verified. Please verify your e-mail'}, status=status.HTTP_403_FORBIDDEN)
             return Response({'msg': 'E-mail or password is wrong'}, status=status.HTTP_401_UNAUTHORIZED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

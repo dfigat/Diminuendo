@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from api.views import VerifyEmailView
 
 urlpatterns = [
     path('', views.home_page, name='home'),
@@ -7,4 +8,5 @@ urlpatterns = [
     path('home/', views.home_page, name='home'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
+    path('verify-email/<uuid:token>/', VerifyEmailView.as_view(), name='verify-email'),
 ]

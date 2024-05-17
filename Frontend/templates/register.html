@@ -36,7 +36,8 @@
                     .then(response => {
                         if (response.ok) {
                             return response.json().then(formData => {
-                                console.log('New account created successfully:', formData);
+                                console.log(formData['msg']);
+                                window.location.href = '/login';
                             });
                         } else {
                             return response.json().then(errorData => {

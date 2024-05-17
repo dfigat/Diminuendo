@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="../static/css/form.css">
     <title>Log in</title>
+    <script src="../static/js/validateForm.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.querySelector('.login-form');
-            const messageDiv = document.getElementById('message');
+            const errorBlock = document.querySelector('.error-block');
 
             form.addEventListener('submit', (event) => {
                 event.preventDefault();
@@ -21,6 +22,8 @@
                 let formData = new FormData(form);
                 formData = Object.fromEntries(formData.entries());
                 
+                toggleCssClasses(errorBlock, 'shown', 'hidden');
+
                 fetch('/api/login/', {
                     method: 'POST',
                     headers: {
@@ -39,7 +42,8 @@
                                 const errorCount = Object.keys(errorData)[0].length;
                                 const errorKey = Object.keys(errorData)[0];
                                 const errorValue = errorData[errorKey][0];
-
+                                toggleCssClasses(errorBlock, 'hidden', 'shown');
+                                errorBlock.textContent = errorData['msg'];
                                 console.error('Login errors:', errorData);
                                 throw new Error('Login failed');
                             });
@@ -48,29 +52,6 @@
                     .catch(error => {
                         console.error('Error:', error);
                     });
-
-
-                // try {
-                //     const response = fetch('http://localhost:8000/login/', {
-                //         method: 'POST',
-                //         headers: {
-                //             'Content-Type': 'application/json',
-                //         },
-                //         body: JSON.stringify({ email, password }),
-                //     });
-
-                //     const data = response.json();
-
-                //     if (response.ok) {
-                //         messageDiv.textContent = `Welcome, ${data.user}!`;
-                //         // Optionally, store user data in localStorage
-                //         // localStorage.setItem('user', JSON.stringify(data));
-                //     } else {
-                //         messageDiv.textContent = `Login failed: ${data.msg}`;
-                //     }
-                // } catch (error) {
-                //     messageDiv.textContent = `Error: ${error.message}`;
-                // }
             });
         });
     </script>
@@ -96,10 +77,11 @@
     <article>
         <div class="form">
             <h1>Log in</h1>
-            <form action="" method="post" class="login-form">
+            <form method="post" class="login-form">
                 {% csrf_token %}
-                <input type="email" name="email" id="email" placeholder=email autocomplete="on"><br>
-                <input type="password" name="password" id="password" placeholder="password" autocomplete="current-password"><br>
+                <div class="error-block"></div>
+                <input type="email" name="email" id="email" placeholder=e-mail autocomplete="on"><br>
+                <input type="password" name="password" id="password" placeholder="Password" autocomplete="current-password"><br>
                 <input type="submit" value="Log in">
                 <div id="message"></div>
             </form>
