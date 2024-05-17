@@ -1,36 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="keywords" content="Project, Project Managment">
-    <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/form.css">
-    <title>Log in</title>
-</head>
-
-<body>
-    <nav>
-        <div class="logo-container">
-            <a href="/">
-                <img src="../static/graphics/logo_diminuendo.png" alt="logo Poznań Supercomputing and Networking Center">
-            </a>
-        </div>
-        <div class="user-forms-container">
+{% extends "base.html"%}
+{% block title%}
+<title>Login</title>
+{% endblock title%}
+            {% block navopt %}
             <a href="/register">
-                <div class="register">
+                <div class="NavElement text-dark">
                     <p>
                         Register
                     </p>
                 </div>
             </a>
-        </div>
-    </nav>
-    <article>
-        <div class="form">
+            {% endblock navopt%}
+    {% block content%}
+    
+        <div id="CustomForm">
             <h1>Log in</h1>
             <form action="" method="post">
                 {% csrf_token %}
@@ -39,7 +22,5 @@
                 <input type="submit" value="Log in">
             </form>
         </div>
-    </article>
-</body>
-
-</html>
+    
+    {% endblock content%}
