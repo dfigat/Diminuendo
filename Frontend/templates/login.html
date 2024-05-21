@@ -1,26 +1,29 @@
 {% extends "base.html"%}
+
 {% block title%}
 <title>Login</title>
 {% endblock title%}
-            {% block navopt %}
-            <a href="/register">
-                <div id="NavElement text-dark">
-                    <p>
-                        Register
-                    </p>
-                </div>
-            </a>
-            {% endblock navopt%}
-    {% block content%}
-    
-        <div id="CustomForm">
-            <h1>Log in</h1>
-            <form action="" method="post">
-                {% csrf_token %}
-                <input type="email" name="email" id="email" placeholder=email autocomplete="on"><br>
-                <input type="password" name="password" id="password" placeholder="password" autocomplete="current-password"><br>
-                <input type="submit" value="Log in">
-            </form>
-        </div>
-    
-    {% endblock content%}
+
+{% block navopt %}
+<a href="/register" class=" ml-3 " style="text-decoration-line: none;">
+    <div class="text-dark">
+        <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';" style="font-size: x-large;">
+            Register
+        </p>
+    </div>
+</a>
+{% endblock navopt%}
+
+{% block content%}
+
+    <div id="CustomForm">
+        <h1>Log in</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="email" name="email" id="email" placeholder=email autocomplete="on"><br>
+            <input type="password" name="password" id="password" placeholder="password" autocomplete="current-password"><br>
+            <input type="submit" value="Log in">
+        </form>
+    </div>
+
+{% endblock content%}

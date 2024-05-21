@@ -1,30 +1,30 @@
-           {% extends "base.html"%}
-           {% block title%}
-           <title>Home</title>
-           {% endblock title%}
-           {% block navopt %}
-            <a href="/login"  style="text-decoration-line: none;">
-                <div class="text-dark">
-                    <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
-                        Log in
-                    </p>
-                </div>
-            </a>
-            <a href="register" class=" ml-3 " style="text-decoration-line: none;">
-                <div class="text-dark">
-                    <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';" style="font-size: x-large;">
-                        Register
-                    </p>
-                </div>
-            </a>
-            {% endblock navopt %}
-
-        {% block content %}
-
-        <h2>
-            <p>
-                Strona główna 😊
+   {% extends "base.html"%}
+   {% block title%}
+   <title>Home</title>
+   {% endblock title%}
+   {% block navopt %}
+    <a href="/login"  style="text-decoration-line: none;">
+        <div class="text-dark">
+            <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
+                Log in
             </p>
-        </h2>
+        </div>
+    </a>
+    <a href="/register" class=" ml-3 " style="text-decoration-line: none;">
+        <div class="text-dark">
+            <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';" style="font-size: x-large;">
+                Register
+            </p>
+        </div>
+    </a>
+    {% endblock navopt %}
 
-        {% endblock content %}
+{% block content %}
+
+<h2>
+    <p>
+        Strona główna 😊
+    </p>
+</h2>
+
+{% endblock content %}

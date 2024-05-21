@@ -1,51 +1,30 @@
 {% extends "base.html"%}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="keywords" content="Project, Project Managment">
-    <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/form.css">
-    <script src="../static/js/register.js"></script>
-    <title>Register</title>
-</head>
+{% block title %}
+<title>Register</title>
+{% endblock title %}
 
-<body>
-    <nav>
-        <div class="logo-container">
-            <a href="/">
-                <img src="../static/graphics/logo_diminuendo.png" alt="logo Poznań Supercomputing and Networking Center">
-            </a>
-        </div>
-        <div class="user-forms-container">
-            <a href="/login">
-                <div class="login">
-                    <p>
-                        Log in
-                    </p>
-                </div>
-            </a>
-        </div>
-    </nav>
-    <article>
-        <div class="form">
-            <h1>Register</h1>
-            <form method="post" id="registration-form">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="text" name="fname" id="fname" placeholder="name"><br>
-                <input type="text" name="lname" id="lname" placeholder="last name"><br>
-                <input type="email" name="email" id="email" placeholder=email><br>
-                <input type="password" name="password" id="password" placeholder="password"><br>
-                <!-- <input type="password" name="password" id="password" placeholder="password"><br> -->
-                <input type="submit" value="Register">
-            </form>
-        </div>
-    </article>
-</body>
+{% block navopt %}
+<a href="/login"  style="text-decoration-line: none;">
+    <div class="text-dark">
+        <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
+            Log in
+        </p>
+    </div>
+</a>
+{% endblock navopt %}
 
-</html>
+{% block content %}
+<div id="CustomForm">
+    <h1>Register</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        <!-- {{ form.as_p }} -->
+        <input type="text" name="fname" id="fname" placeholder="name"><br>
+        <input type="text" name="lname" id="lname" placeholder="last name"><br>
+        <input type="email" name="email" id="email" placeholder=email><br>
+        <input type="password" name="password" id="password" placeholder="password"><br>
+        <input type="submit" value="Register">
+    </form>
+</div>
+{% endblock content %}
