@@ -21,6 +21,11 @@ article{
     margin-bottom: 30px;
     color: #0067a4;
 }
+.form h2{
+    margin-bottom: 15px;
+    font-size: 80%;
+    color: #0067a4;
+}
 form input{
     width: 100%;
     border-radius: 5px;

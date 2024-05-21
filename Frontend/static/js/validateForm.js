@@ -8,13 +8,17 @@ const validateErrorIncomingFromServer = (fieldName, errorInfo) => {
     if (errorBlock) {
         capitalizedErrorInfo = errorInfo.charAt(0).toUpperCase() + errorInfo.slice(1);
         errorBlock.innerHTML = capitalizedErrorInfo;
-        
+
         toggleCssClasses(errorBlock, 'hidden', 'shown');
     }
 }
 
+const getCSRFToken = () => {
+    return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
+
 const validateField = (field) => {
-    
+
     const isEmailCorrect = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
@@ -36,16 +40,16 @@ const validateField = (field) => {
             toggleCssClasses(errorBlock, 'hidden', 'shown');
         }
     } else if (fieldName == 'password') {
-        if (value.length < 8){
+        if (value.length < 8) {
             errorBlock.innerHTML = 'Password must be at least 8 characters long';
             toggleCssClasses(errorBlock, 'hidden', 'shown');
         }
     } else if (fieldName == 'password_verify') {
         const passwordField = field.previousElementSibling
-        .previousElementSibling
-        .previousElementSibling; // to get to the previous input as we have two elements on our way between
+            .previousElementSibling
+            .previousElementSibling; // to get to the previous input as we have two elements on our way between
 
-        if (value != passwordField.value){
+        if (value != passwordField.value) {
             errorBlock.innerHTML = 'Passwords must be identical';
             toggleCssClasses(errorBlock, 'hidden', 'shown');
         }
@@ -53,9 +57,9 @@ const validateField = (field) => {
     if (value.length == 0 && field.required) {
         errorBlock.innerHTML = 'This field cannot be left blank';
         toggleCssClasses(errorBlock, 'hidden', 'shown');
-        
+
     } else if (value.length < 3 && fieldName != 'password' && fieldName != 'password_verify') {
         errorBlock.innerHTML = 'This field must contain at least 3 characters';
         toggleCssClasses(errorBlock, 'hidden', 'shown');
-    } 
+    }
 }

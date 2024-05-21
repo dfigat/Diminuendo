@@ -56,6 +56,8 @@ class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
+class ResendVerificationEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField()
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:

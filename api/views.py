@@ -28,7 +28,7 @@ class UserList(generics.ListCreateAPIView):
                 'Verify your e-mail address',
                 f'Hello, {user.fname} {user.lname}!\n'
                 f'Please click the link to verify your email: {verification_url},\n\n'
-                f'This e-mail got generated automatically. Please, do not respond to it!',
+                f'This message is generated automatically. Please, do not respond to it!',
                 DEFAULT_FROM_EMAIL,
                 [user.email],
                 fail_silently=False,
@@ -63,6 +63,34 @@ class LoginView(APIView):
                 return Response({'msg': 'E-mail not verified. Please verify your e-mail'}, status=status.HTTP_403_FORBIDDEN)
             return Response({'msg': 'E-mail or password is wrong'}, status=status.HTTP_401_UNAUTHORIZED)
 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ResendVerificationEmailView(APIView):
+    def post(self, request):
+        serializer = ResendVerificationEmailSerializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+            try:
+                user = User.objects.get(email=email)
+                print(1, user.email)
+                if user != None and not user.is_active:
+                    token, created = EmailVerificationToken.objects.get_or_create(user=user)
+                    print(2)
+                    verification_url = f'{request.scheme}://{request.get_host()}/verify-email/{token.token}/'
+                    print(2)
+                    send_mail(
+                        'Verify your e-mail address',
+                        f'Hello, {user.fname} {user.lname}!\n'
+                        f'Please click the link to verify your email: {verification_url},\n\n'
+                        f'This message is generated automatically. Please, do not respond to it!',
+                        DEFAULT_FROM_EMAIL,
+                        [user.email],
+                        fail_silently=False,
+                    )
+            except Exception as e:
+                print(e)
+            return Response({'msg': 'If account exists and is unauthorized, check your e-mail inbox'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

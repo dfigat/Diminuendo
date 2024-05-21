@@ -5,10 +5,13 @@ from Frontend.forms import RegistrationForm
 # Create your views here.
 
 def home_page(request):
-    return render(request, "home.html")
+    return render(request, 'home.html')
 
 def login(request):
-    return render(request, "login.html")
+    return render(request, 'login.html')
 
 def register(request):
-    return render(request, "register.html")
+    return render(request, 'register.html')
+
+def resend_verification_email(request):
+    return render(request, 'resend-verification-email.html')
