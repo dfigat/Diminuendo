@@ -17,6 +17,8 @@ def Register(request):
 def Events(request):
     return render(request, 'events.html')
 
+def Projects(request):
+    return render(request,'projects.html')
 
 # def Reg(response):
 #     if response.method == "POST":

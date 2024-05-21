@@ -3,16 +3,16 @@
            <title>Home</title>
            {% endblock title%}
            {% block navopt %}
-            <a href="/login">
-                <div class="NavElement text-dark">
-                    <p>
+            <a href="/login"  style="text-decoration-line: none;">
+                <div class="text-dark">
+                    <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
                         Log in
                     </p>
                 </div>
             </a>
-            <a href="register">
-                <div class="NavElement pl-3 text-dark">
-                    <p>
+            <a href="register" class=" ml-3 " style="text-decoration-line: none;">
+                <div class="text-dark">
+                    <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';" style="font-size: x-large;">
                         Register
                     </p>
                 </div>
@@ -20,11 +20,11 @@
             {% endblock navopt %}
 
         {% block content %}
-        <main>
+
         <h2>
             <p>
                 Strona główna 😊
             </p>
         </h2>
-    </main>
+
         {% endblock content %}
