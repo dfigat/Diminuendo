@@ -43,6 +43,7 @@ class TeamMember(models.Model):
 
 
 class Meeting(models.Model):
+    id_meeting = models.AutoField(auto_created=True, primary_key=True)
     id_project = models.ForeignKey(Project, on_delete=models.CASCADE)
     id_team = id_team = models.ForeignKey(Team, on_delete=models.CASCADE)
     id_leader = id_leader = models.ForeignKey(User, on_delete=models.CASCADE)

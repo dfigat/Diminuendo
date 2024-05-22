@@ -1,30 +1,30 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="../static/css/base.css">
-    </head>
-    {% extends "base.html"%}
-    {% block navopt%}
-    {% endblock navopt%}
+{% extends "base.html" %}
 
-    {% block content%}
-    <p class="gaming"></p>
-    <table class="w-100">
-        <thead>
-            <tr>
-                <td>Poniedziałek</td>
-                <td>Wtorek</td>
-                <td>Środa</td>
-                <td>Czwartek</td>
-                <td>Piątek</td>
-            </tr>
-        </thead>
-        <tbody class="week" class="w-100 justify-content-space-around">
-        </tbody>
-    </table>
-    
-    <button onclick="prevWeek()">[PREV]</button>
-    <button onclick="nextWeek()">[NEXT]</button>
-    <script src="../static/js/events.js"></script>
-    {% endblock content%}
-    
-</html>
+{% block title %}
+<title>Events</title>
+{% endblock title %}
+
+{% block navopt %}
+
+{% endblock navopt %}
+
+{% block content %}
+<p class="gaming"></p>
+<table class="w-100">
+    <thead>
+        <tr>
+            <td>Poniedziałek</td>
+            <td>Wtorek</td>
+            <td>Środa</td>
+            <td>Czwartek</td>
+            <td>Piątek</td>
+        </tr>
+    </thead>
+    <tbody class="week" class="w-100 justify-content-space-around">
+    </tbody>
+</table>
+
+<button onclick="prevWeek()">[PREV]</button>
+<button onclick="nextWeek()">[NEXT]</button>
+<script src="../static/js/events.js"></script>
+{% endblock content %}
