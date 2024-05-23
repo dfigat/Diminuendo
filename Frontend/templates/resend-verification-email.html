@@ -1,22 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "home.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="keywords" content="Project, Project Managment">
-    <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/form.css">
-    <script src="../static/js/validateForm.js"></script>
+{% block title %}
+<script src="../static/js/validateForm.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
 
             
-            const form = document.querySelector('#resend-email-form');
-            formFields = document.querySelectorAll('#resend-email-form input');
+            const form = document.querySelector('.resend-email-form');
+            formFields = document.querySelectorAll('.resend-email-form input');
             for (const field of formFields) {
                 field.addEventListener('input', () => {
                     validateField(field);
@@ -65,42 +57,31 @@
             });
         });
     </script>
-    <title>Register</title>
-</head>
+    <title>Resend Verification</title>
+{% endblock title %}
 
-<body>
-    <nav>
-        <div class="logo-container">
-            <a href="/">
-                <img src="../static/graphics/logo_diminuendo.png"
-                    alt="logo Poznań Supercomputing and Networking Center">
-            </a>
-        </div>
-        <div class="user-forms-container">
-            <a href="/login">
-                <div class="login">
-                    <p>
-                        Log in
-                    </p>
-                </div>
-            </a>
-        </div>
-    </nav>
-    <article>
-        <div class="form">
-            <h1>Verify your email</h1>
-            <h2>Check your inbox</h2>
-            <h2>If you cannot find the message, check your SPAM tab</h2>
-            <div class="message-container"></div>
-            <form method="post" id="resend-email-form">
-                {{ form.as_p }}
-                {% csrf_token %}
-                <div class="error-block email hidden"></div>
-                <input type="email" name="email" id="email" placeholder=e-mail required><br>
-                <input type="submit" value="Resend link">
-            </form>
-        </div>
-    </article>
-</body>
+{% block navopt %}
+<a href="/login"  style="text-decoration-line: none;">
+    <div class="text-dark">
+        <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
+            Log in
+        </p>
+    </div>
+</a>
+{% endblock navopt %}
 
-</html>
+{% block content %}
+<div id="CustomForm">
+    <h1>Verify your email</h1>
+    <h2>Check your inbox</h2>
+    <h2>If you cannot find the message, check your SPAM tab</h2>
+    <div class="message-container"></div>
+    <form method="post" class="resend-email-form">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <div class="error-block email hidden"></div>
+        <input type="email" name="email" id="email" placeholder=e-mail required><br>
+        <input type="submit" value="Resend link">
+    </form>
+</div>
+{% endblock content %}

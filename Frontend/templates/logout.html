@@ -1,82 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="keywords" content="Project, Project Managment">
-    <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/form.css">
-    <title>Log in</title>
-    <script src="../static/js/validateForm.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.querySelector('.logout-form');
-            const errorBlock = document.querySelector('.error-block');
 
-            form.addEventListener('submit', (event) => {
-                event.preventDefault();
+{% block title %}
+<script src="../static/js/validateForm.js"></script>
+<title>Log out</title>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('.logout-form');
+        const errorBlock = document.querySelector('.error-block');
 
-                let formData = new FormData(form);
-                formData = Object.fromEntries(formData.entries());
-                const csrfToken = getCSRFToken();
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
 
-                fetch('/api/logout/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrfToken,
-                    },
-                    body: JSON.stringify(formData),
+            let formData = new FormData(form);
+            formData = Object.fromEntries(formData.entries());
+            const csrfToken = getCSRFToken();
+
+            fetch('/api/logout/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify(formData),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json().then(formData => {
+                            console.log('Successfully logged out!', formData['msg']);
+                            window.location.href = '/';
+                        });
+                    } else {
+                        return response.json().then(errorData => {
+                            const errorCount = Object.keys(errorData)[0].length;
+                            const errorKey = Object.keys(errorData)[0];
+                            const errorValue = errorData[errorKey][0];
+                            toggleCssClasses(errorBlock, 'hidden', 'shown');
+                            errorBlock.textContent = errorData['msg'];
+                            console.error('Logout errors:', errorData);
+                            throw new Error('Logout failed');
+                        });
+                    }
                 })
-                    .then(response => {
-                        if (response.ok) {
-                            return response.json().then(formData => {
-                                console.log('Successfully logged out!', formData['msg']);
-                                window.location.href = '/';
-                            });
-                        } else {
-                            return response.json().then(errorData => {
-                                const errorCount = Object.keys(errorData)[0].length;
-                                const errorKey = Object.keys(errorData)[0];
-                                const errorValue = errorData[errorKey][0];
-                                toggleCssClasses(errorBlock, 'hidden', 'shown');
-                                errorBlock.textContent = errorData['msg'];
-                                console.error('Logout errors:', errorData);
-                                throw new Error('Logout failed');
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            });
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
-    </script>
-</head>
+    });
+</script>
+{% endblock title %}
+{% block navopt %}
+<a href="/register" class=" ml-3 " style="text-decoration-line: none;">
+    <div class="text-dark">
+        <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';" style="font-size: x-large;">
+            Register
+        </p>
+    </div>
+</a>
+{% endblock navopt%}
 
-<body>
-    <nav>
-        <div class="logo-container">
-            <a href="/">
-                <img src="../static/graphics/logo_diminuendo.png"
-                    alt="logo Poznań Supercomputing and Networking Center">
-            </a>
-        </div>
-    </nav>
-    <article>
-        <div class="form">
-            <h1>Log out</h1>
-            <h2>from {{ user.email }}</h2>
-            <form method="post" class="logout-form">
-                {% csrf_token %}
-                
-                <input type="submit" value="Log out">
-            </form>
-        </div>
-    </article>
-</body>
-
-</html>
+{% block content %}
+<div id="CustomForm">
+    <h1>Log out</h1>
+    <h2>from {{ user.email }}</h2>
+    <form method="post" class="logout-form">
+        {% csrf_token %}
+        
+        <input type="submit" value="Log out">
+    </form>
+</div>
+{% endblock content %}

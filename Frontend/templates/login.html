@@ -1,89 +1,75 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="keywords" content="Project, Project Managment">
-    <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/form.css">
-    <title>Log in</title>
-    <script src="../static/js/validateForm.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.querySelector('.login-form');
-            const errorBlock = document.querySelector('.error-block');
+{% extends "home.html" %}
+{% block title %}
+<script src="../static/js/validateForm.js"></script>
+<title>Log in</title>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('.login-form');
+        const errorBlock = document.querySelector('.error-block');
 
-            form.addEventListener('submit', (event) => {
-                event.preventDefault();
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
 
-                let formData = new FormData(form);
-                formData = Object.fromEntries(formData.entries());
-                const csrfToken = getCSRFToken();
+            let formData = new FormData(form);
+            formData = Object.fromEntries(formData.entries());
+            const csrfToken = getCSRFToken();
 
-                toggleCssClasses(errorBlock, 'shown', 'hidden');
+            toggleCssClasses(errorBlock, 'shown', 'hidden');
 
-                fetch('/api/login/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrfToken,
-                    },
-                    body: JSON.stringify(formData),
+            fetch('/api/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify(formData),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json().then(formData => {
+                            console.log('Successfully logged in!', formData['msg']);
+                            window.location.href = '/';
+                        });
+                    } else {
+                        return response.json().then(errorData => {
+                            const errorCount = Object.keys(errorData)[0].length;
+                            const errorKey = Object.keys(errorData)[0];
+                            const errorValue = errorData[errorKey][0];
+                            toggleCssClasses(errorBlock, 'hidden', 'shown');
+                            errorBlock.textContent = errorData['msg'];
+                            console.error('Login errors:', errorData);
+                            throw new Error('Login failed');
+                        });
+                    }
                 })
-                    .then(response => {
-                        if (response.ok) {
-                            return response.json().then(formData => {
-                                console.log('Successfully logged in!', formData['msg']);
-                                window.location.href = '/';
-                            });
-                        } else {
-                            return response.json().then(errorData => {
-                                const errorCount = Object.keys(errorData)[0].length;
-                                const errorKey = Object.keys(errorData)[0];
-                                const errorValue = errorData[errorKey][0];
-                                toggleCssClasses(errorBlock, 'hidden', 'shown');
-                                errorBlock.textContent = errorData['msg'];
-                                console.error('Login errors:', errorData);
-                                throw new Error('Login failed');
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            });
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
-    </script>
-</head>
+    });
+</script>
+{% endblock title %}
 
-<body>
-    <nav>
-        <div class="logo-container">
-            <a href="/">
-                <img src="../static/graphics/logo_diminuendo.png" alt="logo Poznań Supercomputing and Networking Center">
-            </a>
-        </div>
-        <div class="user-forms-container">
-            <a href="/register">
-                <div class="register">
-                    <p>
-                        Register
-                    </p>
-                </div>
-            </a>
-        </div>
-    </nav>
-    <article>
-        <div class="form">
-            <h1>Log in</h1>
-            <form method="post" class="login-form">
-                {% csrf_token %}
-                <div class="error-block"></div>
-                <input type="email" name="email" id="email" placeholder=e-mail autocomplete="on"><br>
-                <input type="password" name="password" id="password" placeholder="Password" autocomplete="current-password"><br>
-                <input type="submit" value="Log in">
-                <div id="message"></div>
-            </form>
-        </div>
-    </article>
-</body>
+{% block navopt %}
+<a href="/register" class=" ml-3 " style="text-decoration-line: none;">
+    <div class="text-dark">
+        <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';" style="font-size: x-large;">
+            Register
+        </p>
+    </div>
+</a>
+{% endblock navopt %}
+
+{% block content %}
+<div id="CustomForm">
+    <h1>Log in</h1>
+    <form method="post" class="login-form">
+        {% csrf_token %}
+        <div class="error-block"></div>
+        <input type="email" name="email" id="email" placeholder=e-mail autocomplete="on"><br>
+        <input type="password" name="password" id="password" placeholder="Password" autocomplete="current-password"><br>
+        <input type="submit" value="Log in">
+        <div id="message"></div>
+    </form>
+</div>
+{% endblock content %}

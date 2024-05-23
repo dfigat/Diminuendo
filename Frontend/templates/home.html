@@ -4,7 +4,7 @@
    {% endblock title%}
    {% block navopt %}
     {% if not user.is_authenticated %}
-            <a href="/register" class=" ml-3 " style="text-decoration-line: none;">
+            <a href="/login" class=" ml-3 " style="text-decoration-line: none;">
                 <div class="text-dark">
                     <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
                        Log in
@@ -19,7 +19,7 @@
                </div>
             </a>
             {% else %}
-            <a href="/register" class=" ml-3 " style="text-decoration-line: none;">
+            <a href="/logout" class=" ml-3 " style="text-decoration-line: none;">
                 <div class="text-dark">
                   <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
                      Log out
@@ -32,7 +32,7 @@
 <h2>
     <p>
       {% if user.is_authenticated %}
-      <p>Welcome, {{ user.lname }}!</p>
+      <p>Welcome, {{ user.fname }}!</p>
       {% else %}
       <p>You are not logged in.</p>
       {% endif %}
