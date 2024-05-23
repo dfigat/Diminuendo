@@ -1,13 +1,18 @@
-    var offset = 0;
+var offset = 0;
 
-    function clearCalendar() {
-        const calendar = document.querySelector(".week");
-        while(calendar.lastElementChild != null) {
-            calendar.removeChild(calendar.lastElementChild);
-        }
+function clearCalendar() {
+    const calendar = document.querySelector(".week");
+    while(calendar.lastElementChild != null) {
+        calendar.removeChild(calendar.lastElementChild);
     }
-    
-    function genCalendar()
+}
+
+function genCalendar()
+{
+    let date = new Date();
+    date.setDate(date.getDate() - date.getDay() + 1 + offset); // Set date to the start of the week
+    let dates = [];
+    for(let i = 0; i < 5; i++) 
     {
         let date = new Date();
         date.setDate(date.getDate() - date.getDay() + 1 + offset); // Set date to the start of the week
@@ -45,7 +50,10 @@
         document.querySelector(".week").appendChild(week);
     }
     
-    genCalendar();
+    document.querySelector(".week").appendChild(week);
+}
+
+genCalendar();
     
     function nextWeek(){
         offset +=7;
@@ -74,4 +82,4 @@
             
         }
     }
-    
+
