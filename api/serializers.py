@@ -1,10 +1,11 @@
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 
 from rest_framework import serializers, status
 
 from CatchMe.models import *
 
 import re
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,11 +43,12 @@ class UserSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        hashed_password = make_password(validated_data['password'])
         user = User(
             email=validated_data['email'],
             fname=validated_data['fname'],
             lname=validated_data['lname'],
-            password=make_password(validated_data['password']),
+            password=hashed_password,
         )
         user.save()
         return user
@@ -56,8 +58,10 @@ class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
+
 class ResendVerificationEmailSerializer(serializers.Serializer):
     email = serializers.EmailField()
+
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:

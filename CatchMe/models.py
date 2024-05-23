@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserM
 import uuid
 
 class CustomUserManager(UserManager):
+    
     def get_by_natural_key(self, email):
         return self.get(email=email)
 
@@ -11,7 +12,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     fname = models.CharField(max_length=50)
     lname = models.CharField(max_length=50)
     email = models.EmailField(max_length=60, unique=True)
-    password = models.CharField(max_length=60)
+    password = models.CharField(max_length=100)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     objects = CustomUserManager()

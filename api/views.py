@@ -54,15 +54,11 @@ class LoginView(APIView):
         if serializer.is_valid():
             email = serializer.validated_data['email'].lower()
             password = serializer.validated_data['password']
-            print(authenticate(request, email=email, password=password))
+
             try:
                 user = authenticate(request, email=email, password=password)
-                print(email)
-                print(password)
-                print(authenticate(request, email=email, password=password))
             except:
                 user = None
-                print(authenticate(request, email=email, password=password))
             if user is not None:
                 if user.is_active:  # Check if the user's email is verified
                     login(request, user)
