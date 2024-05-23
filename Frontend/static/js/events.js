@@ -19,7 +19,6 @@
             dates.push(newDate.toISOString().slice(0,10));
         }
         let dateRange = `od ${dates[0]} do ${dates[6]}`;
-        console.log(dates);
         const week = document.createElement("tr");
         for(let i = 0; i<5;i++)
         {
@@ -59,5 +58,20 @@
         clearCalendar();
         genCalendar();
     }
-    
+    document.querySelector("#showCalendarButton").addEventListener('click',showCalendarForm);
+    function showCalendarForm()
+    {
+        
+        const requestForm = document.querySelector("#calendarRequestForm");
+        if(requestForm.style.display != 'none')
+        {
+            requestForm.style.display = 'none';
+            
+        }
+        else
+        {
+            requestForm.style.display = 'block';
+            
+        }
+    }
     
