@@ -18,7 +18,12 @@ article{
     transform: translateY(-50%);
 }
 .form h1{
-    margin-bottom: 30px;
+    margin-bottom: 5px;
+    color: #0067a4;
+}
+.form h2{
+    margin-bottom: 5px;
+    font-size: 80%;
     color: #0067a4;
 }
 form input{
@@ -29,12 +34,14 @@ form input{
     height: 30px;
     transition: 0.3s;
     width: 300px;
+    margin-top: 5px;
 }
 form input:not(:last-child){
     border: 1px solid #0067a4;
 }
 form input[type="submit"]{
     background-color: #2fa5fd;
+    margin-top: 15px;
 }
 form input[type="submit"]:hover{
     background-color: #0067a4;
@@ -47,4 +54,16 @@ form input[type="submit"]:hover{
     border-bottom: 2px solid rgba(0, 0, 0, 0);
     transition: 0.5s;
     padding-bottom: 5px;
+}
+form .error-block{
+    font-size: 15px;
+    color: red;
+    height: 20px;
+    vertical-align: middle;
+}
+.hidden{
+    visibility: hidden;
+}
+.shown{
+    visibility: visible;
 }

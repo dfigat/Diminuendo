@@ -4,3 +4,5 @@ __pycache__/
 /django_env/
 /static/
 /media/
+__pycache__
+*.pyc

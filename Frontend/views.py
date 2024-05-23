@@ -4,22 +4,18 @@ from Frontend.forms import RegistrationForm
 
 # Create your views here.
 
-def HomePage(request):
-    return render(request, "home.html")
 
-def Login(request):
-    return render(request, "login.html")
+def home_page(request):
+    return render(request, 'home.html')
 
-def Register(request):
-    return render(request, "register.html")
+def login(request):
+    return render(request, 'login.html')
 
-# def Reg(response):
-#     if response.method == "POST":
-#         form = RegistrationForm(response.POST)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponse("Użytkownik został dodany")
-#     else:
-#         form = RegistraForm()
+def logout(request):
+    return render(request, 'logout.html')
 
-#     return render(response, "reg.html", {"form": form})
+def register(request):
+    return render(request, 'register.html')
+
+def resend_verification_email(request):
+    return render(request, 'resend-verification-email.html')

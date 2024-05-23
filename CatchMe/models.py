@@ -1,16 +1,33 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+import uuid
 
 
-class User(models.Model):
+class User(AbstractBaseUser, PermissionsMixin):
     id_user = models.AutoField(auto_created=True, primary_key=True)
     fname = models.CharField(max_length=50)
     lname = models.CharField(max_length=50)
     email = models.EmailField(max_length=60, unique=True)
     password = models.CharField(max_length=60)
+    is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    class Meta:
+        db_table = 'CatchMe_user'
+        swappable = 'AUTH_USER_MODEL'
+        # related_name = 'custom_groups'
+        # related_query_name = 'custom_group'
+
     def __str__(self):
-        return self.fname + " " + self.lname
+        return self.email
+
+
+User._meta.get_field('groups').remote_field.related_name = 'custom_groups'
+User._meta.get_field(
+    'user_permissions').remote_field.related_name = 'custom_user_permissions'
 
 
 class Team(models.Model):
@@ -52,3 +69,12 @@ class Meeting(models.Model):
 
     def __str__(self):
         return "Meeting name: "+self.id_team.tname
+
+
+class EmailVerificationToken(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.token)
