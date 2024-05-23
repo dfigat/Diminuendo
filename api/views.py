@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.core.mail import send_mail
@@ -55,15 +55,25 @@ class LoginView(APIView):
         if serializer.is_valid():
             email = serializer.validated_data['email'].lower()
             password = serializer.validated_data['password']
-            user = authenticate(request, email=email, password=password)
-
+            
+            try:
+                user = authenticate(request, email=email, password=password)
+            except:
+                user = None
             if user is not None:
                 if user.is_active:  # Check if the user's email is verified
+                    login(request, user)
                     return Response({'msg': 'Login successful'}, status=status.HTTP_200_OK)
                 return Response({'msg': 'E-mail not verified. Please verify your e-mail'}, status=status.HTTP_403_FORBIDDEN)
             return Response({'msg': 'E-mail or password is wrong'}, status=status.HTTP_401_UNAUTHORIZED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LogoutView(APIView):
+    def post(self, request):
+        logout(request)
+        return Response({'msg': 'Logout successful'}, status=status.HTTP_200_OK)
 
 
 class ResendVerificationEmailView(APIView):
@@ -73,12 +83,10 @@ class ResendVerificationEmailView(APIView):
             email = serializer.validated_data['email']
             try:
                 user = User.objects.get(email=email)
-                print(1, user.email)
                 if user != None and not user.is_active:
-                    token, created = EmailVerificationToken.objects.get_or_create(user=user)
-                    print(2)
+                    token, created = EmailVerificationToken.objects.get_or_create(
+                        user=user)
                     verification_url = f'{request.scheme}://{request.get_host()}/verify-email/{token.token}/'
-                    print(2)
                     send_mail(
                         'Verify your e-mail address',
                         f'Hello, {user.fname} {user.lname}!\n'

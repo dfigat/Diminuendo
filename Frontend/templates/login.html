@@ -21,13 +21,15 @@
 
                 let formData = new FormData(form);
                 formData = Object.fromEntries(formData.entries());
-                
+                const csrfToken = getCSRFToken();
+
                 toggleCssClasses(errorBlock, 'shown', 'hidden');
 
                 fetch('/api/login/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
                     },
                     body: JSON.stringify(formData),
                 })

@@ -9,17 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="../static/css/form.css">
+    <title>Log in</title>
     <script src="../static/js/validateForm.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
-            const form = document.querySelector('#registration-form');
-            formFields = document.querySelectorAll('#registration-form input');
-            for (const field of formFields) {
-                field.addEventListener('input', () => {
-                    validateField(field);
-                });
-            }
+            const form = document.querySelector('.logout-form');
+            const errorBlock = document.querySelector('.error-block');
 
             form.addEventListener('submit', (event) => {
                 event.preventDefault();
@@ -28,7 +23,7 @@
                 formData = Object.fromEntries(formData.entries());
                 const csrfToken = getCSRFToken();
 
-                fetch('/api/user/', {
+                fetch('/api/logout/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -39,19 +34,18 @@
                     .then(response => {
                         if (response.ok) {
                             return response.json().then(formData => {
-                                console.log(formData['msg']);
-                                window.location.href = '/resend-verification-message/';
+                                console.log('Successfully logged out!', formData['msg']);
+                                window.location.href = '/';
                             });
                         } else {
                             return response.json().then(errorData => {
                                 const errorCount = Object.keys(errorData)[0].length;
-
                                 const errorKey = Object.keys(errorData)[0];
                                 const errorValue = errorData[errorKey][0];
-                                validateErrorIncomingFromServer(errorKey, errorValue);
-
-                                console.error('Validation errors:', errorData);
-                                throw new Error('Accounts creation failed');
+                                toggleCssClasses(errorBlock, 'hidden', 'shown');
+                                errorBlock.textContent = errorData['msg'];
+                                console.error('Logout errors:', errorData);
+                                throw new Error('Logout failed');
                             });
                         }
                     })
@@ -61,7 +55,6 @@
             });
         });
     </script>
-    <title>Register</title>
 </head>
 
 <body>
@@ -72,43 +65,15 @@
                     alt="logo Poznań Supercomputing and Networking Center">
             </a>
         </div>
-        <div class="user-forms-container">
-            <a href="/login">
-                <div class="login">
-                    <p>
-                        Log in
-                    </p>
-                </div>
-            </a>
-        </div>
     </nav>
     <article>
         <div class="form">
-            <h1>Register</h1>
-            <form method="post" id="registration-form">
+            <h1>Log out</h1>
+            <h2>from {{ user.email }}</h2>
+            <form method="post" class="logout-form">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <div class="error-block fname hidden">
-
-                </div>
-                <input type="text" name="fname" id="fname" placeholder="First Name" required><br>
-                <div class="error-block lname hidden">
-
-                </div>
-                <input type="text" name="lname" id="lname" placeholder="Last name" required><br>
-                <div class="error-block email hidden">
-
-                </div>
-                <input type="email" name="email" id="email" placeholder=e-mail required><br>
-                <div class="error-block password hidden">
-
-                </div>
-                <input type="password" name="password" id="password" placeholder="Password" required><br>
-                <div class="error-block password hidden password_verify">
-
-                </div>
-                <input type="password" name="password_verify" id="password_verify" placeholder="Repeat password"><br>
-                <input type="submit" value="Register">
+                
+                <input type="submit" value="Log out">
             </form>
         </div>
     </article>

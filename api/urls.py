@@ -7,6 +7,7 @@ urlpatterns = [
     path('user/<int:pk>/', UserRetrieveUpdateDestroy.as_view(), name='user-detail'),
 
     path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 
     path('team/', TeamList.as_view(), name='team-list'),
     path('team/<int:pk>/', TeamRetrieveUpdateDestroy.as_view(), name='team-detail'),

@@ -7,7 +7,7 @@
     <meta name="keywords" content="Project, Project Managment">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="static/css/style.css">
+    <link type="text/css" rel="stylesheet" href="../static/css/style.css">
     <title>Home</title>
 </head>
 
@@ -19,6 +19,7 @@
             </a>
         </div>
         <div class="user-forms-container">
+            {% if not user.is_authenticated %}
             <a href="/login">
                 <div class="login">
                     <p>
@@ -26,19 +27,32 @@
                     </p>
                 </div>
             </a>
-            <a href="register">
-                <div class="register">
+            <a href="/register">
+                <div class="login">
                     <p>
                         Register
                     </p>
                 </div>
             </a>
+            {% else %}
+            <a href="/logout">
+                <div class="login">
+                    <p>
+                        Log out
+                    </p>
+                </div>
+            </a>
+            {% endif %}
         </div>
     </nav>
     <main>
         <h2>
             <p>
-                Strona główna 😊
+                {% if user.is_authenticated %}
+                <p>Welcome, {{ user.lname }}!</p>
+                {% else %}
+                <p>You are not logged in.</p>
+                {% endif %}
             </p>
         </h2>
     </main>
