@@ -3,28 +3,40 @@
    <title>Home</title>
    {% endblock title%}
    {% block navopt %}
-    <a href="/login"  style="text-decoration-line: none;">
-        <div class="text-dark">
-            <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
-                Log in
-            </p>
-        </div>
-    </a>
-    <a href="/register" class=" ml-3 " style="text-decoration-line: none;">
-        <div class="text-dark">
-            <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';" style="font-size: x-large;">
-                Register
-            </p>
-        </div>
-    </a>
-    {% endblock navopt %}
-
+    {% if not user.is_authenticated %}
+            <a href="/register" class=" ml-3 " style="text-decoration-line: none;">
+                <div class="text-dark">
+                    <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
+                       Log in
+                    </p>
+                </div>
+            </a>
+            <a href="/register" class=" ml-3 " style="text-decoration-line: none;">
+                <div class="text-dark">
+                  <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
+                    Register
+                 </p>
+               </div>
+            </a>
+            {% else %}
+            <a href="/register" class=" ml-3 " style="text-decoration-line: none;">
+                <div class="text-dark">
+                  <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
+                     Log out
+                  </p>
+                 </div>
+            </a>
+            {% endif %}
+  {% endblock navopt %}
 {% block content %}
-
 <h2>
     <p>
-        Strona główna 😊
-    </p>
+      {% if user.is_authenticated %}
+      <p>Welcome, {{ user.lname }}!</p>
+      {% else %}
+      <p>You are not logged in.</p>
+      {% endif %}
+   </p>
 </h2>
 
 {% endblock content %}

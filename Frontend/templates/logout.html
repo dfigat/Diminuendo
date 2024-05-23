@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -10,7 +13,7 @@
     <script src="../static/js/validateForm.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const form = document.querySelector('.login-form');
+            const form = document.querySelector('.logout-form');
             const errorBlock = document.querySelector('.error-block');
 
             form.addEventListener('submit', (event) => {
@@ -20,9 +23,7 @@
                 formData = Object.fromEntries(formData.entries());
                 const csrfToken = getCSRFToken();
 
-                toggleCssClasses(errorBlock, 'shown', 'hidden');
-
-                fetch('/api/login/', {
+                fetch('/api/logout/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -33,7 +34,7 @@
                     .then(response => {
                         if (response.ok) {
                             return response.json().then(formData => {
-                                console.log('Successfully logged in!', formData['msg']);
+                                console.log('Successfully logged out!', formData['msg']);
                                 window.location.href = '/';
                             });
                         } else {
@@ -43,8 +44,8 @@
                                 const errorValue = errorData[errorKey][0];
                                 toggleCssClasses(errorBlock, 'hidden', 'shown');
                                 errorBlock.textContent = errorData['msg'];
-                                console.error('Login errors:', errorData);
-                                throw new Error('Login failed');
+                                console.error('Logout errors:', errorData);
+                                throw new Error('Logout failed');
                             });
                         }
                     })
@@ -60,30 +61,22 @@
     <nav>
         <div class="logo-container">
             <a href="/">
-                <img src="../static/graphics/logo_diminuendo.png" alt="logo Poznań Supercomputing and Networking Center">
-            </a>
-        </div>
-        <div class="user-forms-container">
-            <a href="/register">
-                <div class="register">
-                    <p>
-                        Register
-                    </p>
-                </div>
+                <img src="../static/graphics/logo_diminuendo.png"
+                    alt="logo Poznań Supercomputing and Networking Center">
             </a>
         </div>
     </nav>
     <article>
         <div class="form">
-            <h1>Log in</h1>
-            <form method="post" class="login-form">
+            <h1>Log out</h1>
+            <h2>from {{ user.email }}</h2>
+            <form method="post" class="logout-form">
                 {% csrf_token %}
-                <div class="error-block"></div>
-                <input type="email" name="email" id="email" placeholder=e-mail autocomplete="on"><br>
-                <input type="password" name="password" id="password" placeholder="Password" autocomplete="current-password"><br>
-                <input type="submit" value="Log in">
-                <div id="message"></div>
+                
+                <input type="submit" value="Log out">
             </form>
         </div>
     </article>
 </body>
+
+</html>

@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -6,23 +9,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="../static/css/form.css">
-    <title>Log in</title>
     <script src="../static/js/validateForm.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const form = document.querySelector('.login-form');
-            const errorBlock = document.querySelector('.error-block');
+            
+
+            
+            const form = document.querySelector('#resend-email-form');
+            formFields = document.querySelectorAll('#resend-email-form input');
+            for (const field of formFields) {
+                field.addEventListener('input', () => {
+                    validateField(field);
+                });
+            }
 
             form.addEventListener('submit', (event) => {
                 event.preventDefault();
+                
 
+                const messageContainer = document.querySelector('.message-container');
                 let formData = new FormData(form);
                 formData = Object.fromEntries(formData.entries());
+                console.log(formData);
                 const csrfToken = getCSRFToken();
-
-                toggleCssClasses(errorBlock, 'shown', 'hidden');
-
-                fetch('/api/login/', {
+                
+                fetch('/resend-verification-email/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -33,18 +44,18 @@
                     .then(response => {
                         if (response.ok) {
                             return response.json().then(formData => {
-                                console.log('Successfully logged in!', formData['msg']);
-                                window.location.href = '/';
+                                messageContainer.innerHTML = formData['msg'];
                             });
                         } else {
                             return response.json().then(errorData => {
                                 const errorCount = Object.keys(errorData)[0].length;
+
                                 const errorKey = Object.keys(errorData)[0];
                                 const errorValue = errorData[errorKey][0];
-                                toggleCssClasses(errorBlock, 'hidden', 'shown');
-                                errorBlock.textContent = errorData['msg'];
-                                console.error('Login errors:', errorData);
-                                throw new Error('Login failed');
+                                validateErrorIncomingFromServer(errorKey, errorValue);
+
+                                console.error('Validation errors:', errorData);
+                                throw new Error('Accounts verification failed');
                             });
                         }
                     })
@@ -54,20 +65,22 @@
             });
         });
     </script>
+    <title>Register</title>
 </head>
 
 <body>
     <nav>
         <div class="logo-container">
             <a href="/">
-                <img src="../static/graphics/logo_diminuendo.png" alt="logo Poznań Supercomputing and Networking Center">
+                <img src="../static/graphics/logo_diminuendo.png"
+                    alt="logo Poznań Supercomputing and Networking Center">
             </a>
         </div>
         <div class="user-forms-container">
-            <a href="/register">
-                <div class="register">
+            <a href="/login">
+                <div class="login">
                     <p>
-                        Register
+                        Log in
                     </p>
                 </div>
             </a>
@@ -75,15 +88,19 @@
     </nav>
     <article>
         <div class="form">
-            <h1>Log in</h1>
-            <form method="post" class="login-form">
+            <h1>Verify your email</h1>
+            <h2>Check your inbox</h2>
+            <h2>If you cannot find the message, check your SPAM tab</h2>
+            <div class="message-container"></div>
+            <form method="post" id="resend-email-form">
+                {{ form.as_p }}
                 {% csrf_token %}
-                <div class="error-block"></div>
-                <input type="email" name="email" id="email" placeholder=e-mail autocomplete="on"><br>
-                <input type="password" name="password" id="password" placeholder="Password" autocomplete="current-password"><br>
-                <input type="submit" value="Log in">
-                <div id="message"></div>
+                <div class="error-block email hidden"></div>
+                <input type="email" name="email" id="email" placeholder=e-mail required><br>
+                <input type="submit" value="Resend link">
             </form>
         </div>
     </article>
 </body>
+
+</html>

@@ -4,15 +4,9 @@ from Frontend.forms import RegistrationForm
 
 # Create your views here.
 
-def HomePage(request):
-    return render(request, "home.html")
 
-def Login(request):
-    return render(request, "login.html")
-
-def Register(request):
-
-    return render(request, "register.html")
+def home_page(request):
+    return render(request, 'home.html')
 
 def Events(request):
     return render(request, 'events.html')
@@ -29,4 +23,14 @@ def Projects(request):
 #     else:
 #         form = RegistraForm()
 
-#     return render(response, "reg.html", {"form": form})
+def login(request):
+    return render(request, 'login.html')
+
+def logout(request):
+    return render(request, 'logout.html')
+
+def register(request):
+    return render(request, 'register.html')
+
+def resend_verification_email(request):
+    return render(request, 'resend-verification-email.html')
