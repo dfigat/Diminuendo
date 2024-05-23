@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 
 import os
 from dotenv import load_dotenv
@@ -8,12 +7,6 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-STATIC_URL='/static/'
-STATIC_ROOT=os.path.join(BASE_DIR, 'static/')
-
-MEDIA_URL='/media/'
-MEDIA_ROOT=os.path.join(BASE_DIR, 'media/')
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,9 +18,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS =  ['150.254.165.23', 'diminuendo.pl', '127.0.0.1', 'dev.diminuendo.pl']
-
-
+# ALLOWED_HOSTS =  ['150.254.165.23', 'diminuendo.pl']
 
 # Application definition
 
@@ -80,28 +71,12 @@ WSGI_APPLICATION = 'Diminuendo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'diminuendo_db',
-#         'USER': 'diminuendo_user',
-#         'PASSWORD':'Pa$$word',
-#         'HOST':'127.0.0.1',
-#         'PORT': '3306',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'diminuendo_db',
-        'USER': 'root',
-        'PASSWORD':'',
-        'HOST':'127.0.0.1',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 

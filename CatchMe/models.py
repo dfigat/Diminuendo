@@ -1,7 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 import uuid
 
+class CustomUserManager(UserManager):
+    def get_by_natural_key(self, email):
+        return self.get(email=email)
 
 class User(AbstractBaseUser, PermissionsMixin):
     id_user = models.AutoField(auto_created=True, primary_key=True)
@@ -11,6 +14,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=60)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

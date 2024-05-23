@@ -13,7 +13,6 @@ from CatchMe.models import EmailVerificationToken
 from Frontend.forms import RegistrationForm
 from Diminuendo.settings import DEFAULT_FROM_EMAIL
 
-
 class UserList(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -55,14 +54,17 @@ class LoginView(APIView):
         if serializer.is_valid():
             email = serializer.validated_data['email'].lower()
             password = serializer.validated_data['password']
-            user = authenticate(request, email=email, password=password)
+            print(authenticate(request, email=email, password=password))
             try:
                 user = authenticate(request, email=email, password=password)
+                print(email)
+                print(password)
+                print(authenticate(request, email=email, password=password))
             except:
                 user = None
-                print('user = None')
+                print(authenticate(request, email=email, password=password))
             if user is not None:
-                if user.is_active: # Check if the user's email is verified
+                if user.is_active:  # Check if the user's email is verified
                     login(request, user)
                     return Response({'msg': 'Login successful'}, status=status.HTTP_200_OK)
                 return Response({'msg': 'E-mail not verified. Please verify your e-mail'}, status=status.HTTP_403_FORBIDDEN)
