@@ -8,6 +8,21 @@ from Frontend.forms import RegistrationForm
 def home_page(request):
     return render(request, 'home.html')
 
+def Events(request):
+    return render(request, 'events.html')
+
+def Projects(request):
+    return render(request,'projects.html')
+
+# def Reg(response):
+#     if response.method == "POST":
+#         form = RegistrationForm(response.POST)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponse("Użytkownik został dodany")
+#     else:
+#         form = RegistraForm()
+
 def login(request):
     return render(request, 'login.html')
 

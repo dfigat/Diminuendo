@@ -1,0 +1,69 @@
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: none;
+}
+.NavElement div p 
+{
+    border-bottom: 2px solid rgba(0, 0, 0, 0); 
+    transition: 0.5s;
+    padding-bottom: 5px;
+    background-color: red !important;
+}
+.NavElement div p:hover
+{
+    border-color: solid 2px rgba(0, 103, 164, 1);
+}
+.NavElement:hover{
+    background-color: red !important;
+}
+#navigation
+{
+    padding: 0 10vw;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 5px 10px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+#CustomForm
+{
+    width: fit-content;
+    height: fit-content;
+    padding: 60px 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 1px 1px 20px #0067a4;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+#CustomForm h1
+{
+    margin-bottom: 30px;
+    color: #0067a4;
+}
+#CustomForm input
+{
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    margin: 15px 0;
+    height: 30px;
+    transition: 0.3s;
+    width: 300px;
+}
+#CustomForm input:not(:last-child)
+{
+    border: 1px solid #0067a4;
+}
+#CustomForm input[type="submit"]{
+    background-color: #2fa5fd;
+}
+#CustomForm input[type="submit"]:hover{
+    background-color: #0067a4;
+    color: white;
+}
