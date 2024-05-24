@@ -18,8 +18,10 @@ class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
 
     def post(self, request):
+        password = request.data['password']
+        password_verify = request.data['password_verify']
         serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid() and password == password_verify:
             user = serializer.save(is_active=False)
             token = EmailVerificationToken.objects.create(user=user)
             verification_url = f'{request.scheme}://{request.get_host()}/verify-email/{token.token}/'
@@ -33,8 +35,7 @@ class UserList(generics.ListCreateAPIView):
                 fail_silently=False,
             )
             return Response({'msg': 'New account created. Verify your e-mail!'}, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class VerifyEmailView(APIView):

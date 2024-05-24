@@ -57,7 +57,7 @@ form input[type="submit"]:hover{
 }
 form .error-block{
     font-size: 15px;
-    color: red;
+    color: red !important;
     height: 20px;
     vertical-align: middle;
 }

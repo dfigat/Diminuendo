@@ -8,7 +8,6 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -71,13 +70,23 @@ WSGI_APPLICATION = 'Diminuendo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'diminuendo_db',
+#         'USER': 'diminuendo_user',
+#         'PASSWORD':'Pa$$word',
+#         'HOST':'127.0.0.1',
+#         'PORT': '3306',
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'diminuendo_db',
-        'USER': 'diminuendo_user',
-        'PASSWORD':'Pa$$word',
-        'HOST':'127.0.0.1',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }

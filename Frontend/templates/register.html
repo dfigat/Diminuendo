@@ -37,12 +37,12 @@
                         });
                     } else {
                         return response.json().then(errorData => {
-                            const errorCount = Object.keys(errorData)[0].length;
-
-                            const errorKey = Object.keys(errorData)[0];
-                            const errorValue = errorData[errorKey][0];
-                            validateErrorIncomingFromServer(errorKey, errorValue);
-
+                            if (typeof errorData[0] !== 'undefined'){
+                                const errorCount = Object.keys(errorData)[0].length;
+                                const errorKey = Object.keys(errorData)[0];
+                                const errorValue = errorData[errorKey][0];
+                                validateErrorIncomingFromServer(errorKey, errorValue);
+                            }
                             console.error('Validation errors:', errorData);
                             throw new Error('Accounts creation failed');
                         });
