@@ -1,0 +1,20 @@
+{% extends "home.html" %}
+{% block title %}
+<title>{{ profile_user.fname }} {{ profile_user.lname }}'s Profile</title>
+{% endblock title %}
+{% block navopt %}
+<a href="/logout"  style="text-decoration-line: none;">
+    <div class="text-dark">
+        <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
+            Sign out
+        </p>
+    </div>
+</a>
+{% endblock navopt %}
+{% block content %}
+<div>
+    <h1>
+        {{ profile_user.fname }} {{ profile_user.lname }}'s Profile
+    </h1>
+</div>
+{% endblock content %}

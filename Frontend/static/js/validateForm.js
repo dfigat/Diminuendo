@@ -48,7 +48,6 @@ const validateField = (field) => {
         const passwordField = field.previousElementSibling
             .previousElementSibling
             .previousElementSibling; // to get to the previous input as we have two elements on our way between
-
         if (value != passwordField.value) {
             errorBlock.innerHTML = 'Passwords must be identical';
             toggleCssClasses(errorBlock, 'hidden', 'shown');

@@ -37,8 +37,9 @@
                         });
                     } else {
                         return response.json().then(errorData => {
-                            if (typeof errorData[0] !== 'undefined'){
-                                const errorCount = Object.keys(errorData)[0].length;
+                            const errorCount = Object.keys(errorData)[0];
+
+                            if (typeof errorCount !== 'undefined'){
                                 const errorKey = Object.keys(errorData)[0];
                                 const errorValue = errorData[errorKey][0];
                                 validateErrorIncomingFromServer(errorKey, errorValue);
