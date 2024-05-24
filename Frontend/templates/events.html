@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% block title%}
+{% endblock title%}
     {% block content%}
-    <p class="gaming"></p>
     <button id="showCalendarButton">+</button>
     <form action="" id="calendarRequestForm" style="display: none;">
         <input type="text" name="" id="" placeholder="Topic">
@@ -25,10 +26,15 @@
         <tbody class="week" class="w-100 justify-content-space-around">
         </tbody>
     </table>
-    
+    <p id="userDATA">{{user.id_user}}</p>
     <button onclick="prevWeek()">[PREV]</button>
     <button onclick="nextWeek()">[NEXT]</button>
     <script src="../static/js/events.js"></script>
+
+    <!-- 
+        tutaj bedzie if
+     -->
+    
     {% endblock content%}
     
 </html>
