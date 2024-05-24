@@ -8,17 +8,24 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = "725jl%5*3p9ep_we1#5n5*fn90r#+r)d@k#(h1@d(wo51r#hkb"
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Diminuendo.settings')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS =  ['150.254.165.23', 'diminuendo.pl']
+ALLOWED_HOSTS =  [ '127.0.0.1', 'localhost', '150.254.165.23', 'diminuendo.pl', 'dev.diminuendo.pl']
+
+STATIC_URL='/static/'
+STATIC_ROOT=os.path.join(BASE_DIR, 'static/')
+
+MEDIA_URL='/media/'
+MEDIA_ROOT=os.path.join(BASE_DIR, 'media/')
 
 # Application definition
 
@@ -74,7 +81,7 @@ WSGI_APPLICATION = 'Diminuendo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'diminuendo_db',
+        'NAME': 'dev_diminuendo_db',
         'USER': 'diminuendo_user',
         'PASSWORD':'Pa$$word',
         'HOST':'127.0.0.1',
@@ -128,8 +135,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
