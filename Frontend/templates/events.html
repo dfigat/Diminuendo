@@ -2,6 +2,8 @@
 {% block title%}
 {% endblock title%}
     {% block content%}
+    
+    {% if user.is_authenticated %}
     <button id="showCalendarButton">+</button>
     <form action="" id="calendarRequestForm" style="display: none;">
         <input type="text" name="" id="" placeholder="Topic">
@@ -26,14 +28,13 @@
         <tbody class="week" class="w-100 justify-content-space-around">
         </tbody>
     </table>
-    <p id="userDATA">{{user.id_user}}</p>
     <button onclick="prevWeek()">[PREV]</button>
     <button onclick="nextWeek()">[NEXT]</button>
+    <p id="userDATA">{{user.id_user}}</p>
     <script src="../static/js/events.js"></script>
-
-    <!-- 
-        tutaj bedzie if
-     -->
+    {% else %}
+    <h1>PAGE NOT FOUND</h1>
+    {% endif %}
     
     {% endblock content%}
     

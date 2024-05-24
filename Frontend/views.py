@@ -13,7 +13,8 @@ def Events(request):
     return render(request, 'events.html',{'user':user})
 
 def Projects(request):
-    return render(request,'projects.html')
+    user = request.user
+    return render(request,'projects.html',{'user':user})
 
 # def Reg(response):
 #     if response.method == "POST":
