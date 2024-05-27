@@ -8,14 +8,16 @@ function clearCalendar() {
 }
 
 function genCalendar()
-{
+{   
+    const curUser = document.querySelector('#userDATA').innerText;
+    const curUserId = Number(curUser);
     let date = new Date();
     date.setDate(date.getDate() - date.getDay() + 1 + offset); // Set date to the start of the week
     let dates = [];
     for(let i = 0; i < 5; i++) 
     {
         let date = new Date();
-        date.setDate(date.getDate() - date.getDay() + 1 + offset); // Set date to the start of the week
+        date.setDate(date.getDate() - date.getDay() + 1 + offset); 
         let dates = [];
         for(let i = 0; i < 5; i++) 
         {
@@ -27,30 +29,49 @@ function genCalendar()
         const week = document.createElement("tr");
         for(let i = 0; i<5;i++)
         {
+            console.log("123");
             const day = document.createElement("td");
             const date = document.createElement("p");
             const content = document.createElement("p");
-            fetch('/api/meeting/')
+            fetch('/api/team-member')
                 .then(response => response.json())
                 .then(data => {
-                data.forEach(meeting => {
-    
-                    if(meeting.meeting_date == date.textContent){
-                        content.textContent = meeting.meeting_name;
-                    }
-                });
-            })
+                    data.forEach(teamMember =>{
+                        if(curUserId == teamMember.id_user)
+                        {
+                            console.log("jest w teamie");
+                            fetch('/api/meeting/')
+                            .then(response => response.json())
+                            .then(data => {
+                            data.forEach(meeting => {
+                
+                                if(meeting.meeting_date == date.textContent){
+                                    content.textContent = meeting.meeting_name;
+                                }
+                            });
+                        })
+                        }
+                    })
+                })
+                .catch(error => console.error('Error:', error));;
+
+
+            
+
+
+
+
             content.textContent = "brak wydarzenia";
             date.textContent = dates[i];
             day.appendChild(date);
             day.appendChild(content);
             week.appendChild(day);
+            document.querySelector(".week").appendChild(week);
         }
         
-        document.querySelector(".week").appendChild(week);
+        
     }
     
-    document.querySelector(".week").appendChild(week);
 }
 
 genCalendar();

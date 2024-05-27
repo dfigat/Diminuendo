@@ -11,5 +11,14 @@
 {% block content %}
 <!-- nazwa projektu, lider, następne sptokanie -->
 <div></div>
-<script src="../static/js/projects.js"></script>
+{% if user.is_authenticated %}
+        <p id="userDATA">{{user.id_user}}</p>
+        <script src="../static/js/projects.js"></script>
+    {% else %}
+        <h1>PAGE NOT FOUND</h1>
+    {% endif %}
+
+
+
+
 {% endblock content %}

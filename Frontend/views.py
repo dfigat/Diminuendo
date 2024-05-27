@@ -10,7 +10,13 @@ def home_page(request):
 
 
 def Events(request):
-    return render(request, 'events.html')
+    user = request.user
+    return render(request, 'events.html', {'user': user})
+
+
+def Projects(request):
+    user = request.user
+    return render(request, 'projects.html', {'user': user})
 
 
 def Projects(request):
