@@ -19,10 +19,10 @@
                </div>
             </a>
             {% else %}
-            <a href="/logout" class=" ml-3 " style="text-decoration-line: none;">
+            <a href="/user/{{ user.id_user }}" class=" ml-3 " style="text-decoration-line: none;">
                 <div class="text-dark">
                   <p onmouseout="this.style.borderBottom='2px solid rgba(0, 0, 0, 0)';" onmouseover="this.style.borderBottom='solid 2px rgba(0, 103, 164, 1)';"style="font-size: x-large;">
-                     Log out
+                     Profile
                   </p>
                  </div>
             </a>

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +9,7 @@
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/css/base.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
     {% block title%}
     
     {%endblock title%}
@@ -18,7 +19,7 @@
     <nav id="navigation">
         <div class="h-100">
             <a href="/">
-                <img src="../static/graphics/logo_diminuendo.png" alt="logo Poznań Supercomputing and Networking Center" class="h-100">
+                <img src="{% static 'graphics/logo_diminuendo.png' %}" alt="logo Poznań Supercomputing and Networking Center" class="h-100">
             </a>
         </div>
         <div class="d-flex container-fluid justify-content-end">

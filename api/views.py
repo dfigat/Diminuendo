@@ -20,6 +20,9 @@ class UserList(generics.ListCreateAPIView):
     def post(self, request):
         password = request.data['password']
         password_verify = request.data['password_verify']
+        request.data['fname'] = request.data['fname'].lower().capitalize()
+        parts = request.data['lname'].split()
+        request.data['lname'] = '-'.join(part.lower().capitalize() for part in parts)
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid() and password == password_verify:
             user = serializer.save(is_active=False)
